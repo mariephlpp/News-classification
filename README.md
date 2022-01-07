@@ -19,8 +19,8 @@
 	
 ## Models
 ### LSVM
-### LSTM
 ### RNN
+### LSTM
 ### BERT
 
 ## Conclusion
