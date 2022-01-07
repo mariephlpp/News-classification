@@ -1,4 +1,9 @@
-# Table of contents
+# Deep learning project
+
+## Marie PHILIPPE & Claire SERRAZ - M2 D3S
+
+
+## Table of contents
 * [Introduction](#introduction)
 * [Literature](#literature)
 * [Models](#models)
@@ -8,16 +13,16 @@
 	* [BERT](#bert)
 * [Conclusion](#conclusion)
 
-# Introduction
+## Introduction
 	
-# Literature
+## Literature
 	
-# Models
-## LSVM
-## LSTM
-## RNN
-## BERT
+## Models
+### LSVM
+### LSTM
+### RNN
+### BERT
 
-# Conclusion
+## Conclusion
 
 
