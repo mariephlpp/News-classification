@@ -104,6 +104,12 @@ The following results enabled us to validate the model:
 * Test loss: 0.025
 * Test accuracy: 0.992
 
+Fitting again the model with the test set instead of the validation set and prediciting the classes we got:
+
+* Accuracy on the tes set: 0.9897550111358575
+* Precision on the test set: 0.985040797824116
+* Recall on the test set: 0.994053064958829
+
 
 ### LSTM
 ### BERT
