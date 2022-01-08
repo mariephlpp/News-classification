@@ -399,10 +399,10 @@ lstm_model = build_lstm_model(
     EMBEDDING_DIM)
 ```
 We clearly can see the sigmoid layer given as activation function (the tanh being in the bidirectional LSTM function). We then fit our model on the train set using several new parameters:
-- epochs= 2, i.e the number of time we're going to run our network
-- batch_size: the number of documents that will be passed throught the network at one time
-- verbose= 1: It shows all the steps done as output
-- validation_split=0.1: the size of the validation set
+- Epochs= 2, i.e the number of time we're going to run our network
+- Batch_size: The number of documents that will be passed throught the network at one time
+- Verbose= 1: It shows all the steps done as output
+- Validation_split=0.1: The size of the validation set
  
  ```
 history = lstm_model.fit(
@@ -452,8 +452,10 @@ Epoch 2/2
 
 ```
 On the test set, we get an accuracy score of 99,8% , which is almost perfect. Here again, it is probably due to the choice of dataset.
+![acc](https://user-images.githubusercontent.com/97041206/148653149-2a7351a9-1321-4645-91bd-42d8dfcc16fc.png)
+![loss](https://user-images.githubusercontent.com/97041206/148653150-34d7a0be-0ebe-44a5-82bd-791c0f8513de.png)
 
-
+We plotted above the evolution of the loss and accuracy functions. We can see that for both the accuracy and the loss, the ones for the train set converge to the ones for the test set. It allows us to see that the fitting is quite good, not perfect but almost, with some underfitting. 
 ### BERT
 
 * What is an BERT?
