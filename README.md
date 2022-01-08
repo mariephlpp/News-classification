@@ -79,9 +79,18 @@ GlobalMaxPool1D downsamples the input representation by taking the maximum value
 Among the next layers are Dropout layers. There are used as a regulazition technique. The principle in to shut some neurons down so they are less sensitive to the activation of another neuron.      
 Each neuron in the dense layer receives input from all neurons of the previous layer and an activation function, here relu, can be associated to it.
 
+One all the previous steps where done we could configure our model with a loss, a metric and an optimizer. 
+```
+model.compile(loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+              optimizer=tf.keras.optimizers.Adam(1e-4),
+              metrics=['accuracy'])
+```
+
+The binary crossentropy loss was chosen since the news can be only of two differnt types. As an optimizer was chosen ADAM (Adaptive Moment Estimation) which combines momentum and RMSprop. For the metrics, the accuracy is used. 
 
 * Result
 
+Once all the previous steps done 
 
 
 ### LSTM
