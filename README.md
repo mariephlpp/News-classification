@@ -62,7 +62,9 @@ The data used come from kaggle: *Fake and real news dataset* (https://www.kaggle
 
 ## Data cleaning 
 
-We had two datasets but need just one, thus the first thing we did was to merge the fake and true news datasets and specified each time the class (true or fake) of the news. Once this step was done, we could clean the title and text. 
+We had two datasets but needed just one, thus the first thing we did was to merge the fake and true news datasets and specified each time the class (true or fake) of the news. Once this step was done, we could clean the title and text using the Natural Language Toolkit.  
+
+The text was first put to lowercase and we removed puntuation and new line characters. A tokenization was done so we could remove stopwords such as “the”, “a”, “an”, “in”... that don't help when classifying and we kept only the root of words. 
 
  ```
 # Convert text to lowercase
@@ -114,6 +116,10 @@ def text_cleaning(df, colname):
     )
     return df
 ```
+
+
+
+
 
 ## Models
 ### LSVM
