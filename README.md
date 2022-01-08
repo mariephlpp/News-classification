@@ -147,7 +147,7 @@ It is a linear Support Vector Machine (SVM), that is a supervised algorithm that
 
 * Tf-idf vectorization
 
-To use the SSVC model, we need to apply the Term Frequency - Inverse Document Frequency vectorization on the text variable. It is a weighting method that help to estimate the lexical relevance of a word contained in a document, relative to the corpus. The weight proportionally increases according to the number of occurences of the word in the given document, but also varies according to the frequecy of the word in the corpus. Therefore, here is applied a relation between a document and a set of documents that share similarities of lexical fields. 
+To use the LSVC model, we need to apply the Term Frequency - Inverse Document Frequency vectorization on the text variable. It is a weighting method that help to estimate the lexical relevance of a word contained in a document, relative to the corpus. The weight proportionally increases according to the number of occurences of the word in the given document, but also varies according to the frequecy of the word in the corpus. Therefore, here is applied a relation between a document and a set of documents that share similarities of lexical fields. 
 
 For instance, in the case of a query containing the term X? a document is considered more relevant as a response if it has a certain occurrence of the word X, and if X has a rarity in other documents related to the first.
 
@@ -174,7 +174,6 @@ tfidf_vectorizer = TfidfVectorizer(
 ```
 
 We decided to put 1000 as maximum number of features, i.e. of words in a document. We are not using caracters n-grams, but only analyzing one word after one word. Finally, we want the most important words, so if they don't appear at least 10 times, we don't take them into account. 
-
 
 * How does it work?
 
@@ -213,7 +212,7 @@ The training accuracy score is 99,6%, while the test accuracy score is the 99,2%
 weighted avg       0.99      0.99      0.99      8980 
 ```
 
-The results are already well, almost perfect. We think it is due to the chosent dataset, that might be very easy to classify, as we saw on the literature that the classification and the accuracy scores vary a lot from a dataset to another.
+The results are already well, almost perfect. We think it is due to the chosen dataset, that might be very easy to classify, as we saw on the literature that the classification and the accuracy scores vary a lot from a dataset to another.
 
 ### RNN
 
