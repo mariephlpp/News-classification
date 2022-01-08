@@ -220,7 +220,7 @@ class BertClassifier(torch.nn.Module):
         return linear_output
 ```
 
-
+In the training we define a loss function and an optimizer as done for the previous models. A binary crosstropy could have been used here since we have only two possible classes. The function enables to train the model, including the pre-processing module, the BERT encoder, the data and the classifier.
 
 ```
 def train(model, train_data, valid_data, learning_rate, epochs=1):
@@ -295,14 +295,51 @@ Validation loss: {total_loss_val / len(valid_data):6f} \n\
 Validation accuracy: {total_acc_val / len(valid_data):6f}')
 
 train(model = BertClassifier(), train_data = df_train, valid_data = df_valid, learning_rate = 1e-6, epochs = 1)
+```
 
+Finally, we evaluated the model on the test data. To evaluate the model we could have plotted the loss and accuracy, but having several epochs would have taken too long. 
 
+```
+def evaluate(model, test_data):
+    
+    # Create custom data
+    test = Dataset(test_data)
+    
+    # Create dataloaders
+    test_dataloader = torch.utils.data.DataLoader(test, batch_size=1)
 
+    # Processor 
+    device = torch.device("cpu")
 
+    total_acc_test = 0
+    
+    with torch.no_grad():
+        
+        # Prediction and accurary computation
+        for test_input, test_label in tqdm(test_dataloader):
 
+              test_label = test_label.to(device)
+              mask = test_input['attention_mask'].to(device)
+              input_id = test_input['input_ids'].squeeze(1).to(device)
 
+              output = model(input_id, mask)
 
+              acc = (output.argmax(dim=1) == test_label).sum().item()
+              total_acc_test += acc
+    
+    print(f'Test Accuracy: {total_acc_test / len(test_data):6f}')
 
+evaluate(model = BertClassifier(), test_data = df_test)
+```
+
+* Results
+
+Train loss: 0.288873 
+Train accuracy: 0.925750 
+Validation loss: 0.029467 
+Validation accuracy: 0.996000
+
+Test Accuracy: 0.486000
 
 
 
