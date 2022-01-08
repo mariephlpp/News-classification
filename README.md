@@ -90,7 +90,19 @@ The binary crossentropy loss was chosen since the news can be only of two differ
 
 * Result
 
-Once all the previous steps done 
+Once all the previous steps done we could validate the model and then predict the class of the news. 
+
+We had to fit the model. 
+```
+model.fit(X_train, y_train, epochs=5, validation_data=(X_valid, y_valid), batch_size=32)
+```
+The following results enabled us to validate the model:
+
+* Train loss: 0.009
+* Train accuracy: 0.998
+
+* Test loss: 0.025
+* Test accuracy: 0.992
 
 
 ### LSTM
