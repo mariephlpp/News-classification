@@ -144,12 +144,12 @@ An attention process is used, it means that each output element is connected to 
 
 It is necessary to train the BERT model on a new task to specialize the model, this is called finetuning. Indeed, BERT is pre-trained using only an unlabeled text corpus, thus additional layers of neurons need to be added to transform the model into a classifier example.
 
+* Issue with BERT 
+
+The issue we got with BERT is that is was running for several hours. Not having computers powerfull enough and still wanting a result we decided to reduce the dataset to 5000 news. Obviously, the results gotten aren't representative of BERT's performance and the results would be much better if using the whole dataset. 
+We could have used another BERT model like the DistilBERT for example, however, it is mostly certain we would have had the same issue. 
 
 
-
-
-
-* Issues with BERT 
 
 
 
