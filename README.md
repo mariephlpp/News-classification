@@ -58,10 +58,62 @@ For the first dataset, the best results is when only using the readability, and 
 
 ## Data
 
-The data used come from kaggle: *Fake and real news dataset* (https://www.kaggle.com/clmentbisaillon/fake-and-real-news-dataset). It contains a first dataset with 23481 fake news and a second one with 21417 true news. Each of the datasets has 4 columns: the title, the text, the subject and the date. 
-
+The data used come from kaggle: *Fake and real news dataset* (https://www.kaggle.com/clmentbisaillon/fake-and-real-news-dataset). It contains a first dataset with 23481 fake news and a second one with 21417 true news. Each of the datasets has 4 columns: the title, the text, the subject and the date. In our models we will mainly use the text and sometimes the title. To be able to use the data, it had to be cleaned. 
 
 ## Data cleaning 
+
+We had two datasets but need just one, thus the first thing we did was to merge the fake and true news datasets and specified each time the class (true or fake) of the news. Once this step was done, we could clean the title and text. 
+
+ ```
+# Convert text to lowercase
+def convert_text_to_lowercase(df, colname):
+    df[colname] = df[colname].str.lower()
+    return df
+
+def not_regex(pattern):
+        return r"((?!{}).)".format(pattern)
+
+# Remove punctuation and new line characters '\n'
+def remove_punctuation(df, colname):
+    df[colname] = df[colname].str.replace('\n', ' ')
+    df[colname] = df[colname].str.replace('\r', ' ')
+    alphanumeric_characters_extended = '(\\b[-/]\\b|[a-zA-Z0-9])'
+    df[colname] = df[colname].str.replace(not_regex(alphanumeric_characters_extended), ' ')
+    return df
+
+# Tokenize sentences
+def tokenize_sentence(df, colname):
+    df[colname] = df[colname].str.split()
+    return df
+
+# Remove the stopwords
+def remove_stop_words(df, colname):
+    df[colname] = df[colname].apply(lambda x: [word for word in x if word not in sw])
+    return df
+
+# Lemmatisation (get the root of words)
+def lemm(df, colname):
+    df[colname] = df[colname].apply(lambda x: [wnl.lemmatize(word) for word in x])
+    return df
+
+# Convert tokenized text to text
+def reverse_tokenize_sentence(df, colname):
+    df[colname] = df[colname].map(lambda word: ' '.join(word))
+    return df
+
+# Apply all the functions the text
+def text_cleaning(df, colname):
+    df = (
+        df
+        .pipe(convert_text_to_lowercase, colname)
+        .pipe(remove_punctuation, colname)
+        .pipe(tokenize_sentence, colname)
+        .pipe(remove_stop_words, colname)
+        .pipe(lemm, colname)
+        .pipe(reverse_tokenize_sentence, colname)
+    )
+    return df
+```
 
 ## Models
 ### LSVM
