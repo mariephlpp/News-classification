@@ -139,11 +139,11 @@ The specificity of BERT models is they use the transformer encoder architecture 
 
 The transformer is the part of the model that enables BERT tooutperform other models. The transformer processes a given word in relation to all other words in the sentence, rather than processing them one by one. It allowes to understand fully the context of the word. 
 
-BERT models are pre-trained on a large corpus of text (English Wikipedia and Books Corpus)  and then refined for specific tasks. Here, we used pre-trained BERT model from Hugging Face. BERT is bidirectional and pre-trained on two tasks. The first one is Masked Language Model: the model is trained by hiding a word in a sentence and then trying to predict it based on the masked word's context. The second one is Next Sentence Prediction: this time the model is training by looking at two sentences and predicts if they have a sequential connection or just a random one. 
+BERT models are pre-trained on a large corpus of text (English Wikipedia 2,500M words and BooksCorpus 800M words) and then refined for specific tasks. BERT is bidirectional, it learns information from a sequence of words from the left and right. Furthermore, it is pre-trained on two tasks. The first one is Masked Language Model: the model is trained by hiding a word in a sentence and then trying to predict it based on the masked word's context. The second one is Next Sentence Prediction: this time the model is training by looking at two sentences and predicts if they have a sequential connection or just a random one. 
+An attention process is used, it means that each output element is connected to every input element, and the weights between them are dynamically calculated based upon their connection. 
 
 It is necessary to train the BERT model on a new task to specialize the model, this is called finetuning. Indeed, BERT is pre-trained using only an unlabeled text corpus, thus additional layers of neurons need to be added to transform the model into a classifier example.
 
-An attention process is used, it means that each output element is connected to every input element, and the weights between them are dynamically calculated based upon their connection. 
 
 
 
