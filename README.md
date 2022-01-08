@@ -342,7 +342,7 @@ An LSTM model is a particular advanced form of RNN, that has been previously des
 
 The steps are as follows:
 - First, the sigmoid layer allows to forget unnecessary information from the previous unit, taking the input X(t) and h(t-1) and deciding which parts from the old output should be removed conditionnally to the new input.
-- Then, it looks at the new imput and decide to store the information or not. Here, the sigmoid layer layer is the one that decide which part and how much of the new information the algorithm memorize. Tht tanh layer creates a vector of all the possible values. Then, both outputs from the two layers are multipled. 
+- Then, it looks at the new imput and decide to store the information or not. Here, the sigmoid layer layer is the one that decide which part and how much of the new information the algorithm memorize. The tanh layer creates a vector of all the possible values. Then, both outputs from the two layers are multipled. 
 - Finally, it has to decide the output. A sigmoid layer decide which parts and how much of the cell state the algorithm is going to output. It is again multiplied by the output of a tanh function that displays all the possible values. 
 
 For our LSTM model, we fixed the maximum number of words taken into account by the model vocabulary as 10000, the maximum number of words per document as 100, and the dimension of the embedding layer in the network as 200.
@@ -398,7 +398,7 @@ lstm_model = build_lstm_model(
     MAX_LENGTH,
     EMBEDDING_DIM)
 ```
-We clearly can see the sigmoid layer given as activation function (the tanh being in the Bidirectional LSTM function). We then fit our model on the train set using several new parameters:
+We clearly can see the sigmoid layer given as activation function (the tanh being in the bidirectional LSTM function). We then fit our model on the train set using several new parameters:
 - epochs= 2, i.e the number of time we're going to run our network
 - batch_size: the number of documents that will be passed throught the network at one time
 - verbose= 1: It shows all the steps done as output
@@ -678,7 +678,7 @@ All of our algorithms got pretty good results. The accuracy scores were all high
 
 The model that has the best accuracy scores on the test set is the LSTM. It is compliant with what was seen in the literature and with our courses on Deep Learning. It is secondly followed by the LSVM and then by the RNN. It shows us that sometimes a non-neural network model can work better than a neural network.
 
-The BERT model, even if here the result are not really good on the test set, is very promising. Indeed, the validation and training accuracy scores are very good, just not replicable on the test set, due to the fact that we tried it on subsample. To go further, it would be nice to try it on the whole dataset or on another one. In our case, it would have taken 4 hours to run, and our computers were not powerful enough to do it as the same time as our daily tasks. 
+The BERT model, even if here the result are not really good on the test set, is very promising. Indeed, the validation and training accuracy scores are very good, just not replicable on the test set, due to the fact that we tried it on subsample. To go further, it would be nice to try it on the whole dataset or on another one. In our case, it would have taken 4 days to run, and our computers were not powerful enough to do it as the same time as our daily tasks. 
 
 Another idea to go further would have, as they do it in the literature, to test our algorithms on other datasets to see their robustness to other features. We decided to no do it by lack of time. 
 
