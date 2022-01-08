@@ -18,6 +18,10 @@
 
 ## Introduction
 
+Text classification is a popular task in Natural Language Processing (NLP). The purpose is to classify text based on pre-defined classes, usually sentiments or topics. Text can contain a lot of information, however extracting this infromation can take time, especially due to its unstructured nature. With nowadays's deep learning models classify text is getting easier. A vast volume of text data is generated everyday in the form of social media, websites, news... etc. 
+
+
+
 
 ## Literature
 
