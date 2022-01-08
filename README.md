@@ -47,7 +47,7 @@ The first paper details the challenges, the tasks, and the NLP solutions to answ
 The results are compared on three different datasets. For the first dataset, it appears the Deep CNN and a model called NLP shallow gives the best accuracy scores (respectively 96.2% and 92.1%) when for the other models tested, the accuracy scores remain below 50%. For the second dataset, the results are slightly higher on average than the ones described before, the best accuracy score is 68% and 68,4% for two LSTMs. For the third dataset, the results are way better, all above 50%. The models used are also different from the ones described above. The best model would be a GCN, and a HC-CB-3.
 
 The second paper also covers the processus of text classification over two different datasets. They use a LSVM Classifier only but play with the data cleaning, on several options, and on the several features:
-- Punctuation: twelve types of punctuaction derived from the Linguistic Inquiry and Word COunt software (LIWC) are used.
+- Punctuation: Twelve types of punctuaction derived from the Linguistic Inquiry and Word COunt software (LIWC) are used.
 - LIWC: It is a lexicon that allows to extract the proportions of words into several ategories. It can represents psycholinguisitic processes, summary categories, part-of-speech categories...
 - Readability: Those are features to indicate text understandability (number of characters, complex words...)
 - Ngrams: It aims to extract unigrams and bigrams derived from the bag of words representatio of each news articles. These features are then tf-idf vectorized. 
@@ -69,7 +69,7 @@ We created several functions:
 - Remove punctuation: It allows to remove some useless punctuation.
 - Tokenize_sentence: It allows to tokenize the sentence, i.e., to split the word one
 by one as vectors of letters.
-- Remove_stop_words: It allows to remove some basic English words such as "the", "a", "an"...
+- Remove_stop_words: It allows to remove some basic english words such as "the", "a", "an"...
 - Lemm: It keps only the roots of words. 
 - Reverse_tokenize_sentence: It allows to end the tokenization we have dropped
 some useless words.
@@ -128,7 +128,93 @@ def text_cleaning(df, colname):
 A new dataframe was created that we exported as a csv. This step enabled us to not run the cleaning each time. 
 
 ## Models
+
+From the literature review, we decided to go on with the LSVC model. Then, we tried ecurrent Neural Networks: a simple one, described in the literature  as well, and the Long Short Term Memory, that we saw in class and that is also commonly used for text classification. Finally, we decided to try to implement a Bidirectional Encoder Representations from Transformers (BERT) model.
+
 ### LSVM
+
+* What is a LSVC?
+
+It is a linear Support Vector Machine (SVM), that is a supervised algorithm that balance power and flexibility. It appeared in the 60s but were well defined in the 90s. A SLVC fixes the kernel set to linear. This way, it has more flexibiity to choose the penalties and loss functions. 
+
+* Some vocabulary
+
+-An hyperplane is a decision space divided between a set of points having different classes.
+
+-A margin is the gap between two lines on the closest data points on different classes. The largest margins are the best.
+
+-A Support Vector is the space of datapoints that are the closest to the previoulys defined hyperplane.
+
+* Tf-idf vectorization
+
+To use the SSVC model, we need to apply the Term Frequency - Inverse Document Frequency vectorization on the text variable. It is a weighting method that help to estimate the lexical relevance of a word contained in a document, relative to the corpus. The weight proportionally increases according to the number of occurences of the word in the given document, but also varies according to the frequecy of the word in the corpus. Therefore, here is applied a relation between a document and a set of documents that share similarities of lexical fields. 
+
+For instance, in the case of a query containing the term X? a document is considered more relevant as a response if it has a certain occurrence of the word X, and if X has a rarity in other documents related to the first.
+
+The term frequency is the frequency of x in y, and the inverse document frequency is the logarithm of the ratio of the total number of documents over the number of documents containing x.
+
+We used a common tf-idf function:
+```
+#We compute the TF-IDF keys for the observations in the variables text and title
+number_of_dimensions = 1000
+
+#Vector representation of the text
+
+tfidf_vectorizer = TfidfVectorizer(
+    # Whether the feature should be made of word or character n-grams
+    analyzer='word',
+    # Unigrams: we consider one word by one word
+    ngram_range=(1, 1),
+    # Construct a vector the 1000 most used words
+    max_features=number_of_dimensions,
+    # Don't take the words that have a frequency higher than 100% 
+    max_df=1.0,
+    # Don't take the words that appear less than 10 times
+    min_df=10)
+```
+
+We decided to put 1000 as maximum number of features, i.e. of words in a document. We are not using caracters n-grams, but only analyzing one word after one word. Finally, we want the most important words, so if they don't appear at least 10 times, we don't take them into account. 
+
+
+* How does it work?
+
+A SVM model aims to represent different classes in a hyperplane in multidimensional space. This hyperplane is generated using an iteration to minimize the errors. Teen, the model divide the datasets into several classes to find the maximum marginal hyperplane. Then, the first step is to generate multiple hyperplanes with an iteration to segregate the classes the best as it can. The second step is to decide which hyperplane is the one that split the classes the best. There are several parameters that you can play on when trying to optimize the model, but here we won't optimize it as it works already well without optimization and without the features described in the litterature. We only play on the tf-idf vectorization, and then on the frequency/ readability of the documents, not on the LIWC , punctuaction, CFG...
+Here, our model only uses the tf idf vectorization of the text, i.e a quantitative variable, to segregate the two classes (fake or true).
+
+We first charge our model from the sklearn libraries:
+```lsvc = svm.LinearSVC(max_iter=300)```
+
+Then, we fit our model on the train set:
+```lsvc.fit(X_train,y_train)```
+
+Finally, we predict the classes of the test set, using the features of the test set:
+```pred_lsvc = lsvc.predict(X_test)```
+
+To end, we compare these predicted values with the actual ones and we compute several metrics:
+```
+lsvc_accuracy = metrics.accuracy_score(y_test,pred_lsvc)
+print("Training accuracy Score   : ", lsvc.score(X_train,y_train))
+print("Testing accuracy Score : ", lsvc_accuracy)
+print(metrics.classification_report(pred_lsvc,y_test))
+```
+
+* The results we got
+
+The training accuracy score is 99,6%, while the test accuracy score is the 99,2%. We then don't really suspect overfitting as both accuracy scores are very close, and very good.  Looking at other metrics, we got the same results for the recall and f1 score, and for both classes.
+
+```
+              precision    recall  f1-score   support
+
+           0       0.99      0.99      0.99      4721
+           1       0.99      0.99      0.99      4259
+
+    accuracy                           0.99      8980
+   macro avg       0.99      0.99      0.99      8980
+weighted avg       0.99      0.99      0.99      8980 
+```
+
+The results are already well, almost perfect. We think it is due to the chosent dataset, that might be very easy to classify, as we saw on the literature that the classification and the accuracy scores vary a lot from a dataset to another.
+
 ### RNN
 
 * What is an RNN? 
