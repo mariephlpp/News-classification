@@ -133,15 +133,17 @@ The results are very promising that this model would work well for another text 
 
 * What is an BERT?
 
-The specificity of BERT models is they use the transformer encoder architecture to process each input text token in the full context of all tokens before and after. An attention process is used, it means that each output element is connected to every input element, and the weights between them are dynamically calculated based upon their connection. 
-
-Several BERT models exists. In this project we used the bert base model, which consists of 12 layers of transformer encoder, 12 attention heads, 768 hidden size, and 110M parameters.
+The specificity of BERT models is they use the transformer encoder architecture to process each input text token in the full context of all tokens before and after. Several BERT models exists. In this project we used the bert base model, which consists of 12 layers of transformer encoder, 12 attention heads, 768 hidden size, and 110M parameters.
 
 * How does it work? 
 
-BERT models are pre-trained on a large corpus of text (English Wikipedia and Books Corpus)  and then refined for specific tasks. Here, we used pre-trained BERT model from Hugging Face. BERT is bidirectional and pre-trained on two tasks. 
-	* The first one is Masked Language Model: the model is trained by hiding a word in a sentence and then trying to predict it based on the masked word's context. 
-	* The second one is Next Sentence Prediction: this time the model is training by looking at two sentences and predicts if they have a sequential connection or just a random one. 
+The transformer is the part of the model that enables BERT tooutperform other models. The transformer processes a given word in relation to all other words in the sentence, rather than processing them one by one. It allowes to understand fully the context of the word. 
+
+BERT models are pre-trained on a large corpus of text (English Wikipedia and Books Corpus)  and then refined for specific tasks. Here, we used pre-trained BERT model from Hugging Face. BERT is bidirectional and pre-trained on two tasks. The first one is Masked Language Model: the model is trained by hiding a word in a sentence and then trying to predict it based on the masked word's context. The second one is Next Sentence Prediction: this time the model is training by looking at two sentences and predicts if they have a sequential connection or just a random one. 
+
+It is necessary to train the BERT model on a new task to specialize the model, this is called finetuning. Indeed, BERT is pre-trained using only an unlabeled text corpus, thus additional layers of neurons need to be added to transform the model into a classifier example.
+
+An attention process is used, it means that each output element is connected to every input element, and the weights between them are dynamically calculated based upon their connection. 
 
 
 
