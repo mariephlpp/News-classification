@@ -149,6 +149,59 @@ It is necessary to train the BERT model on a new task to specialize the model, t
 The issue we got with BERT is that is was running for several hours. Not having computers powerfull enough and still wanting a result we decided to reduce the dataset to 5000 news. Obviously, the results gotten aren't representative of BERT's performance and the results would be much better if using the whole dataset. 
 We could have used another BERT model like the DistilBERT for example, however, it is mostly certain we would have had the same issue. 
 
+* Steps 
+
+BERT is using token wods, thus before anything else, we had to define the tokenizer and maximum length.
+
+```
+tokenizer = BertTokenizer.from_pretrained('bert-base-cased')
+max_len   = tokenizer.max_model_input_sizes['bert-base-uncased']
+```
+
+In order to generate the news data, we create a dataset class to custom the data. 
+
+```
+class Dataset(torch.utils.data.Dataset): 
+    
+    def __init__(self,df): 
+        '''
+        Get labels and tokenization of the text
+        '''
+        self.labels = [labels[label] for label in df["class"]] 
+        self.texts = [tokenizer(text, padding='max_length', max_length=max_len, 
+                                truncation=True,return_tensors="pt") for text in df["text"]] 
+    
+    def classes(self):
+        return self.labels
+    
+    def __len__(self): 
+        return len(self.labels)
+    
+    def get_batch_labels(self,indx): 
+        '''
+        Batch of labels
+        '''
+        return np.array(self.labels[indx])
+
+    def get_batch_texts(self,indx): 
+        '''
+        Batch of texts
+        '''
+        return self.texts[indx]
+
+    def __getitem__(self,indx): 
+        '''
+        Item with the labels and texts
+        '''
+        batch_y = self.get_batch_labels(indx)
+        batch_texts = self.get_batch_texts(indx)
+        
+        return batch_texts, batch_y
+
+
+
+
+
 
 
 
