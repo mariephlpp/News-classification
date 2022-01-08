@@ -64,7 +64,15 @@ The data used come from kaggle: *Fake and real news dataset* (https://www.kaggle
 
 We had two datasets but needed just one, thus the first thing we did was to merge the fake and true news datasets and specified each time the class (true or fake) of the news. Once this step was done, we could clean the title and text using the Natural Language Toolkit.  
 
-The text was first put to lowercase and we removed puntuation and new line characters. A tokenization was done so we could remove stopwords such as “the”, “a”, “an”, “in”... that don't help when classifying and we kept only the root of words. 
+We created several functions:
+- Convert_text_to_lowercase: It allows to put all the charactes in lowercase.
+- Remove punctuation: It allows to remove some useless punctuation.
+- Tokenize_sentence: It allows to tokenize the sentence, i.e., to split the word one
+by one as vectors of letters.
+- Remove_stop_words: It allows to remove some basic English words such as "the", "a", "an"...
+- Lemm: It keps only the roots of words. 
+- Reverse_tokenize_sentence: It allows to end the tokenization we have dropped
+some useless words.
 
  ```
 # Convert text to lowercase
@@ -117,9 +125,7 @@ def text_cleaning(df, colname):
     return df
 ```
 
-
-
-
+A new dataframe was created that we exported as a csv. This step enabled us to not run the cleaning each time. 
 
 ## Models
 ### LSVM
