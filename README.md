@@ -674,13 +674,15 @@ Using BERT was a first attempt to understand a little more how this kind of mode
 
 ## Conclusion
 
-All of our algorithms got pretty good results. The accuracy score well al high, except for the BERT model but because as we explained, we tried on a subsample. These very good results, compared to the ones in the literature, let us think that the choice of dataset might be relevant in the classification problem, and maybe we would not get as good results with other data. 
+All of our algorithms got pretty good results. The accuracy scores were all high, except for the BERT model but because as we explained, we tried on a subsample. Those very good results, compared to the ones in the literature, let us think that the choice of dataset might be relevant in the text classification problem, and maybe we would not get as good results with other data. 
 
 The models that have the best accuracy scores on the test set is the LSTM. It is compliant with what was seen in the literature and with our courses on Deep Learning. It is secondly followed by the LSVM and then by the RNN. It shows us that sometimes a non-neural network model can work better than a neural network.
 
 The BERT model, even if here the result are not really good on the test set, is very promising. Indeed, the validation and training accuracy scores are very good, just not replicable on the test set, due to the fact that we tried it on subsample. To go further, it would be nice to try it on the whole dataset or on another one. In our case, it would have taken 4 hours to run, and our computers were not powerful enough to do it as the same time as our daily tasks. 
 
 Another idea to go further would have, as they do it in the literature, to test our algorithms on other datasets to see their robustness to other features. We decided to no do it by lack of time. 
+
+Finally, another idea would be to add other features on the LSVC model, such as the title, the subject, but also the punctuation, the readability, the n-grams.... However, in our case, without all of it the results were already very good. 
 
 We enjoyed working on this project as it allowed us to apply algorithms that we already knew to text classfication, but alo to discover new ones that are specific to text classification.
 
