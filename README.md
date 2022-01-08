@@ -316,6 +316,144 @@ for i in pred:
 The results are very promising that this model would work well for another text classification. 
 
 ### LSTM
+
+* What is a LSTM?
+
+An LSTM model is a particular advanced form of RNN, that is previously described. The main difference between the the LSTM and the other RNN is that the hidden layer of LSTM is a gated unit or gated cell, i.e. four layers that interact with one to another to produce the output.LSTM has three logistic sigmoid gates and one tanh layer. The output is either 0 or 1. Those gates allows to control the memorizing process.
+
+* How does it work?
+ 
+ Here is the architecture of a LSTM.
+ ![alt text](https://miro.medium.com/max/1400/1*Niu_c_FhGtLuHjrStkB_4Q.png)
+ 
+ with:
+ - X_t is the current input
+ - x is the scaling of information
+ - Where there is a +, it is wjere the information is added
+ - The sigma is the sigmoid layer (it is an activation function). Here it is chosen because as it outputs 0 or 1, it can forget or remember the information.
+ - tanh is another layer that is also another activation function.Here it is chosen to overcome the increasing gradient problem (the second derivative of tanh doesn't converge to fast to 0).
+ - h(t-1) is the output of the last LSTM unit, here consider as a new input
+ - c(t) is the new updated memore
+ - h(t) is the current output
+ 
+ The particularity of the LSTM is its facultary to forget the unnecessary information with the sigmoid layer. 
+ 
+* Steps
+
+The steps are as follows:
+- First, the sigmoid layer allows to forget unnecessary information from the previous unit, taking the input X(t) and h(t-1) and deciding which parts from the old output should be removed conditionnally to the new input.
+- Then, it looks at the new imput and decide to store the information or not. Here, the sigmoid layer layer is the one that decide which part and how much of the new information the algorithm memorize. Tht tanh layer creates a vector of all the possible values. Then, both outputs from the two layers are multipled. 
+- Finally, it has to decide the output. A sigmoid layer decide which parts and how much of the cell state the algorithm is going to output. It is again multiplied by the output of a tanh function that displays all the possible values. 
+
+For our LSTM model, we fixed the maximum number of words taken into account by the model vocabulary as 10000, the maximum number of words per document as 100, and the dimension of the embedding layer in the network as 200.
+
+Then, we decided to use the embedding layer from keras. Then, it needs that the input data is encoded into integer, to have each word represented by a unique integer. The Tokenize function allows to do that, as follows:
+```
+# Tokenizer transforms sequences of word into sequences of index
+tokenizer = Tokenizer(num_words=VOCAB_SIZE, filters='!"#$%&()*+,.:;<=>?@[\\]^_`{|}~\t\n')
+
+# We fit it on the X train set
+tokenizer.fit_on_texts(X_train)
+
+# We then vectorize the X train set
+X_train = tokenizer.texts_to_sequences(X_train)
+X_train = pad_sequences(X_train, maxlen=MAX_LENGTH, padding='post', truncating='post')
+
+# We then vectorize the X test set
+X_test = tokenizer.texts_to_sequences(X_test) 
+X_test = pad_sequences(X_test, maxlen=MAX_LENGTH, padding='post', truncating='post')
+
+# We set out-of index vocabulary to 0
+X_train[X_train >= VOCAB_SIZE] = 0
+X_test[X_test >= VOCAB_SIZE] = 0 
+```
+
+Below, we added some lines because we need to make all sequences in a batch to fit a given standad length. Then we padded (add some 0 to the end of a sentence) or truncated (remove the last words of a sentence) our sequences as follows:
+- If the number of words of the document is lower than the maximum length defined above, then we do a padding.
+- If the number of words of the review is higher than the maximum length defined above, then we do a truncating.
+
+We then build ou LSTM model as follows:
+```
+def build_lstm_model(nb_class, voc_size, max_length, embedding_dim):
+
+    inp = Input(shape=(max_length, ))
+
+    x = Embedding(input_dim=voc_size,
+                  output_dim=embedding_dim,
+                  input_length=max_length,
+                  trainable=True)(inp)
+
+    x = Bidirectional(LSTM(128))(x)
+    out = Dense(nb_class, activation='sigmoid', name='output')(x)
+
+    model = Model(inputs=inp, outputs=out)
+    opt = optimizers.Adam(lr=0.005)
+    model.compile(optimizer=opt, loss='binary_crossentropy', metrics=['binary_accuracy'])
+
+    return model
+
+lstm_model = build_lstm_model(
+    MODEL_OUPUT_DIM, 
+    VOCAB_SIZE,
+    MAX_LENGTH,
+    EMBEDDING_DIM)
+```
+We clearly can see the sigmoid layer given as activation function (the tanh being in the Bidirectional LSTM function). We then fit our model on the train set using several new parameters:
+- epochs= 2, i.e the number of time we're going to run our network
+- batch_size: the number of documents that will be passed throught the network at one time
+- verbose= 1: It shows all the steps done as output
+- validation_split=0.1: the size of the validation set
+ 
+ ```
+history = lstm_model.fit(
+    X_train,
+    y_train.values,
+    epochs=2,
+    batch_size=1024,
+    verbose=1,
+    validation_split=0.1
+    )
+```
+
+Then, thanks to the two functions below that we defined, we can plot some metrics to measure our classification.
+
+```
+def plot_history(hist):
+  plt.plot(hist.history['loss'], label='train')
+  plt.plot(hist.history['val_loss'], label='val')
+  plt.legend()
+  plt.ylim((0,1))
+  plt.title('Loss evolution')
+  plt.show()
+  plt.plot(hist.history['binary_accuracy'], label='train')
+  plt.plot(hist.history['val_binary_accuracy'], label='val')
+  plt.legend()
+  plt.ylim((0,1))
+  plt.title('Accuracy evolution')
+  plt.show()
+  
+  def model_evaluation(NN_model, x_test, y_test): 
+  y_pred_proba = NN_model.predict(x_test, verbose=1)
+  y_pred = [1 if i >= 0.5 else 0 for i in y_pred_proba]
+  print('accuracy {}'.format(round(accuracy_score(y_test, y_pred), 4)))
+  
+  plot_history(history)
+model_evaluation(NN_model=lstm_model, x_test=X_test, y_test=y_test)
+```
+
+* Result
+
+The resultats of the fitting are as follows. It lets us imagine that the network classify very well on the train set and on a small validation set, as the accuracy are higher than 99%. Two epochs are clearly enough. 
+```
+Epoch 1/2
+32/32 [==============================] - 169s 5s/step - loss: 0.1948 - binary_accuracy: 0.9233 - val_loss: 0.0286 - val_binary_accuracy: 0.9897
+Epoch 2/2
+32/32 [==============================] - 153s 5s/step - loss: 0.0089 - binary_accuracy: 0.9977 - val_loss: 0.0094 - val_binary_accuracy: 0.9969
+
+```
+On the test set, we get an accuracy score of 99,8% , which is almost perfect. Here again, it is probably due to the choice of dataset.
+
+
 ### BERT
 
 * What is an BERT?
