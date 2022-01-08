@@ -18,7 +18,7 @@
 
 ## Introduction
 
-Text classification is a popular task in Natural Language Processing (NLP). The purpose is to classify text based on pre-defined classes, usually sentiments or topics. Text can contain a lot of information, however extracting this infromation can take time, especially due to its unstructured nature. With nowadays's deep learning models classify text is getting easier. Fake news are spreading false information in order to influence readers' beliefs which usually damages a person's, a company's... reputation. Thus, they are a real issue today, especially since a vast volume of text data is generated everyday in the form of social media, websites, news... etc. 
+Text classification is a popular task in Natural Language Processing (NLP). The purpose is to classify text based on pre-defined classes, usually sentiments or topics. Text can contain a lot of information, however extracting this information can take time, especially due to its unstructured nature. With nowadays's deep learning models, classifying text is getting easier. Fake news are spreading false information in order to influence readers' beliefs which usually damages a person's, a company's... reputation. Thus, they are a real issue today, especially since a vast volume of text data is generated everyday in the form of social media, websites, news... etc. 
 
 This work focuses on article news taken from the *Fake and real news dataset* from kaggle. The aim is to classify these news into two different categories: true or fake. To do so, four different models are used:
 * Linear Support Vector Machine (LSVM)       
@@ -34,7 +34,7 @@ For this project we mainly used two papers:
 - A survey on Natural Language Processing for Fake News Detection by Oshikawa et al. (2020)
 - Automatic Detection of Fake News by Pérez et al. (2018)
 
-The first paper details the challenges, the tasks, and the NLP solutions to answers to the challenge of fake news detection. They first transformed the problem into a binary classification problem (fake - real), but then added other classes for not completely real and not completely fake news. According to them, the following model can be used for text classification: 
+The first paper details the challenges, tasks, and NLP solutions to answers to the challenge of fake news detection. They first transformed the problem into a binary classification problem (fake - real), but then added other classes for not completely real and not completely fake news. According to them, the following model can be used for text classification: 
 - Support Vector Machine,
 - Naive Bayes Classifier, 
 - Logistic Regression,
@@ -51,10 +51,10 @@ The second paper also covers the processus of text classification over two diffe
 - LIWC: It is a lexicon that allows to extract the proportions of words into several ategories. It can represents psycholinguisitic processes, summary categories, part-of-speech categories...
 - Readability: Those are features to indicate text understandability (number of characters, complex words...)
 - Ngrams: It aims to extract unigrams and bigrams derived from the bag of words representatio of each news articles. These features are then tf-idf vectorized. 
-- CFG (Context free grammars): It is a tree that is composed of all the lexicalized production rules combiened with their ancient nodes. These features are also tf-idf vectorized.
-- All features
+- CFG (Context free grammars): It is a tree that is composed of all the lexicalized production rules combined with their ancient nodes. These features are also tf-idf vectorized.
+- All features.
 
-For the first dataset, the best results is when only using the readability, and then the acuracy score is 78%. When using all the features, we get an accuracy score of 74%. The opposite is seen on the second dataset: the accuracy score when only using the readability is the worst (62%). The best accuracy scores is when using all features (76%) and when using the LIWC lexicon (74%). This paper clearly shows the importance of the choice of dataset for the classification problem. 
+For the first dataset, the best results is when only using the readability, and then the accuracy score is 78%. When using all the features, we get an accuracy score of 74%. The opposite is seen on the second dataset: the accuracy score when only using the readability is the worst (62%). The best accuracy scores is when using all features (76%) and when using the LIWC lexicon (74%). This paper clearly shows the importance of the choice of dataset for the classification problem. 
 
 ## Data
 
@@ -70,7 +70,7 @@ We created several functions:
 - Tokenize_sentence: It allows to tokenize the sentence, i.e., to split the word one
 by one as vectors of letters.
 - Remove_stop_words: It allows to remove some basic english words such as "the", "a", "an"...
-- Lemm: It keps only the roots of words. 
+- Lemm: It keeps only the roots of words. 
 - Reverse_tokenize_sentence: It allows to end the tokenization we have dropped
 some useless words.
 
@@ -129,13 +129,13 @@ A new dataframe was created that we exported as a csv. This step enabled us to n
 
 ## Models
 
-From the literature review, we decided to go on with the LSVC model. Then, we tried ecurrent Neural Networks: a simple one, described in the literature  as well, and the Long Short Term Memory, that we saw in class and that is also commonly used for text classification. Finally, we decided to try to implement a Bidirectional Encoder Representations from Transformers (BERT) model.
+From the literature review, we decided to go on with the LSVC model. Then, we tried Recurrent Neural Networks: a simple one, described in the literature  as well, and the Long Short Term Memory, that we saw in class and that is also commonly used for text classification. Finally, we decided to try to implement a Bidirectional Encoder Representations from Transformers (BERT) model.
 
-### LSVM
+### LSVC
 
 * What is a LSVC?
 
-It is a linear Support Vector Machine (SVM), that is a supervised algorithm that balance power and flexibility. It appeared in the 60s but were well defined in the 90s. A SLVC fixes the kernel set to linear. This way, it has more flexibiity to choose the penalties and loss functions. 
+It is a linear Support Vector Machine (SVM), that is a supervised algorithm that balance power and flexibility. It appeared in the 60s but were well defined in the 90s. A LSVC fixes the kernel set to linear. This way, it has more flexibiity to choose the penalties and loss functions. 
 
 * Some vocabulary
 
@@ -147,13 +147,13 @@ It is a linear Support Vector Machine (SVM), that is a supervised algorithm that
 
 * Tf-idf vectorization
 
-To use the LSVC model, we need to apply the Term Frequency - Inverse Document Frequency vectorization on the text variable. It is a weighting method that help to estimate the lexical relevance of a word contained in a document, relative to the corpus. The weight proportionally increases according to the number of occurences of the word in the given document, but also varies according to the frequecy of the word in the corpus. Therefore, here is applied a relation between a document and a set of documents that share similarities of lexical fields. 
+To use the LSVC model, we need to apply the Term Frequency - Inverse Document Frequency vectorization on the text variable. It is a weighting method that help to estimate the lexical relevance of a word contained in a document, relative to the corpus. The weight proportionally increases according to the number of occurences of the word in the given document, but also varies according to the frequency of the word in the corpus. Therefore, here is applied a relation between a document and a set of documents that share similarities of lexical fields. 
 
-For instance, in the case of a query containing the term X? a document is considered more relevant as a response if it has a certain occurrence of the word X, and if X has a rarity in other documents related to the first.
+For instance, in the case of a query containing the term X? A document is considered more relevant as a response if it has a certain occurrence of the word X, and if X has a rarity in other documents related to the first.
 
 The term frequency is the frequency of x in y, and the inverse document frequency is the logarithm of the ratio of the total number of documents over the number of documents containing x.
 
-We used a common tf-idf function:
+We used a common  TF-IDF function:
 ```
 #We compute the TF-IDF keys for the observations in the variables text and title
 number_of_dimensions = 1000
@@ -177,7 +177,7 @@ We decided to put 1000 as maximum number of features, i.e. of words in a documen
 
 * How does it work?
 
-A SVM model aims to represent different classes in a hyperplane in multidimensional space. This hyperplane is generated using an iteration to minimize the errors. Teen, the model divide the datasets into several classes to find the maximum marginal hyperplane. Then, the first step is to generate multiple hyperplanes with an iteration to segregate the classes the best as it can. The second step is to decide which hyperplane is the one that split the classes the best. There are several parameters that you can play on when trying to optimize the model, but here we won't optimize it as it works already well without optimization and without the features described in the litterature. We only play on the tf-idf vectorization, and then on the frequency/ readability of the documents, not on the LIWC , punctuaction, CFG...
+A SVM model aims to represent different classes in a hyperplane in multidimensional space. This hyperplane is generated using an iteration to minimize the errors. Then, the model divide the datasets into several classes to find the maximum marginal hyperplane. Then, the first step is to generate multiple hyperplanes with an iteration to segregate the classes the best as it can. The second step is to decide which hyperplane is the one that split the classes the best. There are several parameters that you can play on when trying to optimize the model, but here we won't optimize it as it works already well without optimization and without the features described in the literature. We only play on the tf-idf vectorization, and then on the frequency/ readability of the documents, not on the LIWC , punctuaction, CFG...
 Here, our model only uses the tf idf vectorization of the text, i.e a quantitative variable, to segregate the two classes (fake or true).
 
 We first charge our model from the sklearn libraries:
@@ -218,7 +218,7 @@ The results are already well, almost perfect. We think it is due to the chosen d
 
 * What is an RNN? 
 
-Deep neural networks usually assume independence between input and outputs. However, it isn't the case for RNNs. Indeed, RNNs have an internal memory thanks to a hidden state feature. It means that information are take from previous inputs to influence the next input and output within each sequence. RNN are therefore known to understand better sequences and their context. 
+Deep neural networks usually assume independence between inputs and outputs. However, it isn't the case for RNNs. Indeed, RNNs have an internal memory thanks to a hidden state feature. It means that information are taken from previous inputs to influence the next input and output within each sequence. RNN are therefore known to understand better sequences and their context. 
 
 Here, we are in the case of a "many to one" application. Indeed, we have several inputs (group of words) but only one input (the type of news). 
 
@@ -263,17 +263,17 @@ The first hidden layer is the embedding. It is initialized with random weights. 
 It has two argument: the size of the vocabulary in the text data (input_dim=20000) and the size of the vector space in which words will be embedded (output_dim=128).    
 The second layer is a stacked bidirectional LSTM. The LSTM algorithm will be explained in the next sub-section.  
 GlobalMaxPool1D downsamples the input representation by taking the maximum value.  
-Among the next layers are Dropout layers. There are used as a regulazition technique. The principle in to shut some neurons down so they are less sensitive to the activation of another neuron.      
+Among the next layers are Dropout layers. There are used as a regularization technique. The principle in to shut some neurons down so they are less sensitive to the activation of another neuron.      
 Each neuron in the dense layer receives input from all neurons of the previous layer and an activation function, here relu, can be associated to it.
 
-One all the previous steps where done we could configure our model with a loss, a metric and an optimizer. 
+Once all the previous steps where done we could configure our model with a loss, a metric and an optimizer. 
 ```
 model.compile(loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
               optimizer=tf.keras.optimizers.Adam(1e-4),
               metrics=['accuracy'])
 ```
 
-The binary crossentropy loss was chosen since the news can be only of two differnt types. As an optimizer was chosen ADAM (Adaptive Moment Estimation) which combines momentum and RMSprop. For the metrics, the accuracy is used. 
+The binary crossentropy loss was chosen since the news can be only of two different types. As an optimizer was chosen ADAM (Adaptive Moment Estimation) which combines momentum and RMSprop. For the metrics, the accuracy is used. 
 
 * Result
 
@@ -319,7 +319,7 @@ The results are very promising that this model would work well for another text 
 
 * What is a LSTM?
 
-An LSTM model is a particular advanced form of RNN, that is previously described. The main difference between the the LSTM and the other RNN is that the hidden layer of LSTM is a gated unit or gated cell, i.e. four layers that interact with one to another to produce the output.LSTM has three logistic sigmoid gates and one tanh layer. The output is either 0 or 1. Those gates allows to control the memorizing process.
+An LSTM model is a particular advanced form of RNN, that has been previously described. The main difference between the LSTM and the other RNN is that the hidden layer of LSTM is a gated unit or gated cell, i.e. four layers that interact with one to another to produce the output. LSTM has three logistic sigmoid gates and one tanh layer. The output is either 0 or 1. Those gates allows to control the memorizing process.
 
 * How does it work?
  
@@ -329,25 +329,25 @@ An LSTM model is a particular advanced form of RNN, that is previously described
  with:
  - X_t is the current input
  - x is the scaling of information
- - Where there is a +, it is wjere the information is added
- - The sigma is the sigmoid layer (it is an activation function). Here it is chosen because as it outputs 0 or 1, it can forget or remember the information.
- - tanh is another layer that is also another activation function.Here it is chosen to overcome the increasing gradient problem (the second derivative of tanh doesn't converge to fast to 0).
+ - Where there is a +, it is where the information is added
+ - The sigma is the sigmoid layer (it is an activation function). Here it is chosen because as it outputs 0 or 1, it can forget or remember information.
+ - tanh is another layer that is also another activation function. Here it is chosen to overcome the increasing gradient problem (the second derivative of tanh doesn't converge to fast to 0).
  - h(t-1) is the output of the last LSTM unit, here consider as a new input
- - c(t) is the new updated memore
+ - c(t) is the new updated memory
  - h(t) is the current output
  
- The particularity of the LSTM is its facultary to forget the unnecessary information with the sigmoid layer. 
+ The particularity of the LSTM is its faculty to forget the unnecessary information with the sigmoid layer. 
  
 * Steps
 
 The steps are as follows:
 - First, the sigmoid layer allows to forget unnecessary information from the previous unit, taking the input X(t) and h(t-1) and deciding which parts from the old output should be removed conditionnally to the new input.
-- Then, it looks at the new imput and decide to store the information or not. Here, the sigmoid layer layer is the one that decide which part and how much of the new information the algorithm memorize. Tht tanh layer creates a vector of all the possible values. Then, both outputs from the two layers are multipled. 
+- Then, it looks at the new imput and decide to store the information or not. Here, the sigmoid layer layer is the one that decide which part and how much of new information the algorithm memorize. Tht tanh layer creates a vector of all the possible values. Then, both outputs from the two layers are multipled. 
 - Finally, it has to decide the output. A sigmoid layer decide which parts and how much of the cell state the algorithm is going to output. It is again multiplied by the output of a tanh function that displays all the possible values. 
 
 For our LSTM model, we fixed the maximum number of words taken into account by the model vocabulary as 10000, the maximum number of words per document as 100, and the dimension of the embedding layer in the network as 200.
 
-Then, we decided to use the embedding layer from keras. Then, it needs that the input data is encoded into integer, to have each word represented by a unique integer. The Tokenize function allows to do that, as follows:
+Then, we decided to use the embedding layer from keras. It needs that the input data is encoded into integer, to have each word represented by a unique integer. The Tokenize function allows to do that, as follows:
 ```
 # Tokenizer transforms sequences of word into sequences of index
 tokenizer = Tokenizer(num_words=VOCAB_SIZE, filters='!"#$%&()*+,.:;<=>?@[\\]^_`{|}~\t\n')
@@ -368,7 +368,7 @@ X_train[X_train >= VOCAB_SIZE] = 0
 X_test[X_test >= VOCAB_SIZE] = 0 
 ```
 
-Below, we added some lines because we need to make all sequences in a batch to fit a given standad length. Then we padded (add some 0 to the end of a sentence) or truncated (remove the last words of a sentence) our sequences as follows:
+Below, we added some lines because we need to make all sequences in a batch to fit a given standard length. Then we padded (add some 0 to the end of a sentence) or truncated (remove the last words of a sentence) our sequences as follows:
 - If the number of words of the document is lower than the maximum length defined above, then we do a padding.
 - If the number of words of the review is higher than the maximum length defined above, then we do a truncating.
 
@@ -443,7 +443,7 @@ model_evaluation(NN_model=lstm_model, x_test=X_test, y_test=y_test)
 
 * Result
 
-The resultats of the fitting are as follows. It lets us imagine that the network classify very well on the train set and on a small validation set, as the accuracy are higher than 99%. Two epochs are clearly enough. 
+The results of the fitting are as follows. It lets us imagine that the network classify very well on the train set and on a small validation set, as the accuracy are higher than 99%. Two epochs are clearly enough. 
 ```
 Epoch 1/2
 32/32 [==============================] - 169s 5s/step - loss: 0.1948 - binary_accuracy: 0.9233 - val_loss: 0.0286 - val_binary_accuracy: 0.9897
@@ -462,7 +462,7 @@ The specificity of BERT models is they use the transformer encoder architecture 
 
 * How does it work? 
 
-The transformer is the part of the model that enables BERT tooutperform other models. The transformer processes a given word in relation to all other words in the sentence, rather than processing them one by one. It allowes to understand fully the context of the word. 
+The transformer is the part of the model that enables BERT to outperform other models. The transformer processes a given word in relation to all other words in the sentence, rather than processing them one by one. It allows to fully understand the context of the word. 
 
 BERT models are pre-trained on a large corpus of text (English Wikipedia 2,500M words and BooksCorpus 800M words) and then refined for specific tasks. BERT is bidirectional, it learns information from a sequence of words from the left and right. Furthermore, it is pre-trained on two tasks. The first one is Masked Language Model: the model is trained by hiding a word in a sentence and then trying to predict it based on the masked word's context. The second one is Next Sentence Prediction: this time the model is training by looking at two sentences and predicts if they have a sequential connection or just a random one. 
 An attention process is used, it means that each output element is connected to every input element, and the weights between them are dynamically calculated based upon their connection. 
@@ -483,7 +483,7 @@ tokenizer = BertTokenizer.from_pretrained('bert-base-cased')
 max_len   = tokenizer.max_model_input_sizes['bert-base-uncased']
 ```
 
-In order to generate the news data, we create a dataset class to custom the data. 
+In order to generate new data, we create a dataset class to customize the data. 
 
 ```
 class Dataset(torch.utils.data.Dataset): 
