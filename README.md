@@ -106,6 +106,18 @@ The following results enabled us to validate the model:
 
 Fitting again the model with the test set instead of the validation set and prediciting the classes we got:
 
+```
+pred = model.predict(X_test)
+```
+```
+predictions = []
+
+for i in pred:
+    if i >= 0.5:
+        predictions.append(1)
+    else:
+        predictions.append(0) 
+```
 * Accuracy on the test set: 0.989
 * Precision on the test set: 0.985
 * Recall on the test set: 0.994
