@@ -110,8 +110,11 @@ Fitting again the model with the test set instead of the validation set and pred
 * Precision on the test set: 0.985
 * Recall on the test set: 0.994
 
+![Unknown](https://user-images.githubusercontent.com/87387511/148624705-c33f5082-7e16-41b0-8001-09d8552cd216.png)
 
+![Unknown-2](https://user-images.githubusercontent.com/87387511/148624703-f4aaa6bb-86f8-4efc-818f-cd6394921436.png)
 
+The results are very promising that this model would work well for another text classification. 
 
 ### LSTM
 ### BERT
