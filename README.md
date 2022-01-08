@@ -18,7 +18,13 @@
 
 ## Introduction
 
-Text classification is a popular task in Natural Language Processing (NLP). The purpose is to classify text based on pre-defined classes, usually sentiments or topics. Text can contain a lot of information, however extracting this infromation can take time, especially due to its unstructured nature. With nowadays's deep learning models classify text is getting easier. A vast volume of text data is generated everyday in the form of social media, websites, news... etc. 
+Text classification is a popular task in Natural Language Processing (NLP). The purpose is to classify text based on pre-defined classes, usually sentiments or topics. Text can contain a lot of information, however extracting this infromation can take time, especially due to its unstructured nature. With nowadays's deep learning models classify text is getting easier. Fake news are spreading false information in order to influence readers' beliefs which usually damages a person's, a company's... reputation. Thus, they are a real issue toda, especially since a vast volume of text data is generated everyday in the form of social media, websites, news... etc. 
+
+This work focuses on article news taken from the *Fake and real news dataset* from kaggle. The aim is to classify these news into two different categories: true or fake. To do so, four different models are used:
+* Linear Support Vector Machine (LSVM)       
+* Recurrent Neural Networks (RNN)    
+* Long Short-Term Memory (LSTM)    
+* Bidirectional Encoder Representations from Transformers (BERT). 
 
 
 
