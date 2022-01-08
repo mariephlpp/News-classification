@@ -28,11 +28,33 @@ This work focuses on article news taken from the *Fake and real news dataset* fr
 
 First, we will explain quickly what has already been done in terms of news classification, then introduce our data and its cleaning and finally we will present our models and the results we got. 
 
-
-
-
-
 ## Literature
+
+For this project we mainly used two papers:
+- A survey on Natural Language Processing for Fake News Detection by Oshikawa et al. (2020)
+- Automatic Detection of Fake News by Pérez et al. (2018)
+
+The first paper details the challenges, the tasks, and the NLP (Atural Language Processing) solutions to answers to the challenge of Fake News detection. They first transformed the problem into a binary classification problem (fake - real), but then added other classes for not completely real and not completely fake news. According to them, the following model can be used for text classification: 
+- Support Vector Machine,
+- Naive Bayes Classifier, 
+- Logistic Regression,
+- Decision Tree,
+- Random Forest Classifier,
+- Recurrent Neural Network (RNN), especially the Long Short-Term Memore(LSTM),
+- Convolutional Neural Network (CNN),
+- Multi Source Multi-class Fake News Detection framework (MMFD).
+
+The results are compared on three different datasets. For the first dataset, it appears the Deep CNN and a model called NLP shallow gives th best accuracy scores (respectively 96.2% and 92.1%) when for the other models tested, the accuracy scores remai below 50%. For the second dataset, the results are slightly higher on avergae than the ones described before, butle best accuracy score is 68% and 68,4% for two LSTM. For the third dataset, the results are way better, all above 50%. The moels used are also different from the ones described above. The best model would be a GCN, and a HC-CB-3.
+
+The second paper will also cover the processus of text classification over two different datasets. They use a Linear Support Vector Machine Classifier only but play the data cleaning and on several options, and on the several features:
+- Punctuation : twelve types of punctuaction derived from the Linguistic Inquiry and Word COunt software (LIWC) are used.
+- LIWC: It is a lexicon that allows to extract the proportions of words into several ategories.  It can represznts psycholinguisitic processes, summary categories, part-of-speech categories...
+- Readability : Those are features to indicate text undrstandability (number of characters, complex words....)
+- Ngrams :it aims to extract unigrams and bigrams derived from the bag of words representatio of each news articles. These features are then tf-idf vectorized. 
+- CFG (Context free grammars). It is a tree that is composed of all the lexicalized production rules combiened with their ancient nodes. These features are also tf-idf vectorized.
+- All features
+
+For the first dataset, the best results is when only using the readability, and then the acuracy score is 78%. When using all the features, we get an accuracy score of 74%. The opposite is seen on the second dataset: the accuracy score when only using the readability is the worst (62%). The best accuracy scores is when using all features (76%) and when using the LIWC lexicon (74%). This paper clearly shows the importance of the choice of dataset for the classification problem. 
 
 ## Data
 
