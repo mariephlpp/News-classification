@@ -334,18 +334,18 @@ evaluate(model = BertClassifier(), test_data = df_test)
 
 * Results
 
-Train loss: 0.288873 
-Train accuracy: 0.925750 
-Validation loss: 0.029467 
-Validation accuracy: 0.996000
+We got good results while validating our model, both the accuracy of the train and validation data where above 92%. 
 
-Test Accuracy: 0.486000
+Train loss: 0.288873    
+Train accuracy: 0.925750    
+Validation loss: 0.029467    
+Validation accuracy: 0.996000         
 
+Nonetheless, we got a test accuracy of 48%. This can be explained by the fact that we reduced the datasets. We believe that if we had more data we would have gotten very good results. 
 
+BERT being very slow, we didn't focus on this model too much. Thus, it could be largely improved. 
 
-
-
-
+Using BERT was a first attempt to understand a little more how this kind of model works. 
 
 ## Conclusion
 
