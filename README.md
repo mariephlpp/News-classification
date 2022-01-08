@@ -197,6 +197,108 @@ class Dataset(torch.utils.data.Dataset):
         batch_texts = self.get_batch_texts(indx)
         
         return batch_texts, batch_y
+```
+
+We then built the model. As explained we used a pre trained model from BERT. A dropout layer is added, as well as a linear one that applies a linear transformation to the input data. There are two variables here, one that contains the embedding vectors of all of the tokens in a sequence and the other one the classification embedding vectors. At the end, we get a vector of size 2 corresponding to the two possible labels. 
+
+```
+class BertClassifier(torch.nn.Module): 
+    
+    def __init__(self): 
+        super(BertClassifier,self).__init__()
+        
+        self.bert=BertModel.from_pretrained("bert-base-cased")
+        self.dropout = torch.nn.Dropout(0.3)
+        self.linear = torch.nn.Linear(768,6) 
+        
+    def forward(self,input_id,mask): 
+        
+        _,pooler_output = self.bert(input_ids= input_id,attention_mask = mask,return_dict = False)
+        dropout_output = self.dropout(pooler_output)
+        linear_output  = self.linear(dropout_output)
+        
+        return linear_output
+```
+
+
+
+```
+def train(model, train_data, valid_data, learning_rate, epochs=1):
+    
+    # Create custom data
+    train, valid = Dataset(train_data), Dataset(valid_data)
+    
+    # Create dataloaders
+    train_dataloader = torch.utils.data.DataLoader(train, batch_size=1, shuffle=True)
+    valid_dataloader = torch.utils.data.DataLoader(valid, batch_size=1)
+    
+    # Processor 
+    device = torch.device("cpu")
+    
+    # Loss
+    criterion = torch.nn.CrossEntropyLoss()
+    
+    # Optimizer
+    optimizer = torch.optim.Adam(model.parameters(), lr = learning_rate)
+   
+    for epoch_num in range(epochs):
+
+            total_acc_train = 0
+            total_loss_train = 0
+
+            for train_input, train_label in tqdm(train_dataloader):
+
+                train_label = train_label.to(device)
+                mask = train_input['attention_mask'].to(device)
+                input_id = train_input['input_ids'].squeeze(1).to(device)
+
+                output = model(input_id, mask) # Prediction
+                
+                # Get loss
+                batch_loss = criterion(output, train_label) 
+                total_loss_train += batch_loss.item()
+                
+                # Get accuracry
+                acc = (output.argmax(dim=1) == train_label).sum().item()
+                total_acc_train += acc
+                
+                # Update the model
+                model.zero_grad()
+                batch_loss.backward()
+                optimizer.step()
+                
+            # Same procedure on the validation data
+            
+            total_acc_val = 0
+            total_loss_val = 0
+
+            with torch.no_grad():
+
+                for val_input, val_label in valid_dataloader:
+
+                    val_label = val_label.to(device)
+                    mask = val_input['attention_mask'].to(device)
+                    input_id = val_input['input_ids'].squeeze(1).to(device)
+
+                    output = model(input_id, mask)
+
+                    batch_loss = criterion(output, val_label)
+                    total_loss_val += batch_loss.item()
+                    
+                    acc = (output.argmax(dim=1) == val_label).sum().item()
+                    total_acc_val += acc
+            
+            print(f'Epochs: {epoch_num + 1} \n\
+Train loss: {total_loss_train / len(train_data):6f} \n\
+Train accuracy: {total_acc_train / len(train_data):6f} \n\
+Validation loss: {total_loss_val / len(valid_data):6f} \n\
+Validation accuracy: {total_acc_val / len(valid_data):6f}')
+
+train(model = BertClassifier(), train_data = df_train, valid_data = df_valid, learning_rate = 1e-6, epochs = 1)
+
+
+
+
 
 
 
