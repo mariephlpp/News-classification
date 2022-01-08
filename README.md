@@ -137,12 +137,12 @@ The specificity of BERT models is they use the transformer encoder architecture 
 
 Several BERT models exists. In this project we used the bert base model, which consists of 12 layers of transformer encoder, 12 attention heads, 768 hidden size, and 110M parameters.
 
-
 * How does it work? 
 
-BERT models are pre-trained on a large corpus of text and then refined for specific tasks. Here, we used pre-trained BERT model from Hugging Face. BERT is bidirectional and pre-trained on two tasks. 
-* The first one is Masked Language Model: the model is trained by hiding a word in a sentence and then trying to predict it based on the masked word's context. 
-* The second one is Next Sentence Prediction: this time the model is training by looking at two sentences and predicts if they have a sequential connection or just a random one. 
+BERT models are pre-trained on a large corpus of text (English Wikipedia and Books Corpus)  and then refined for specific tasks. Here, we used pre-trained BERT model from Hugging Face. BERT is bidirectional and pre-trained on two tasks. 
+	* The first one is Masked Language Model: the model is trained by hiding a word in a sentence and then trying to predict it based on the masked word's context. 
+	* The second one is Next Sentence Prediction: this time the model is training by looking at two sentences and predicts if they have a sequential connection or just a random one. 
+
 
 
 
