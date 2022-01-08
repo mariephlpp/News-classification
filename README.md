@@ -131,6 +131,8 @@ The results are very promising that this model would work well for another text 
 ### LSTM
 ### BERT
 
+* What is an RNN?
+
 ## Conclusion
 
 
