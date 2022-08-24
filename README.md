@@ -1,6 +1,6 @@
 # Deep learning project
 
-## Marie PHILIPPE & Claire SERRAZ - M2 D3S
+## Marie PHILIPPE - M2 D3S
 
 ![alt text](https://www.tse-fr.eu/sites/all/themes/tse/images/site/logo-tse.png)
 
